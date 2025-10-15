@@ -5,20 +5,19 @@ import express from 'express';
 import cors from 'cors';
 import admin from 'firebase-admin';
 import fetch from 'node-fetch';
-import { readFileSync } from 'fs';
+
 
 const app = express();
 app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 
 // Firebase Admin init
-const serviceAccount = JSON.parse(
-  readFileSync('./firebaseServiceAccountKey.json', 'utf8')
-);
+const serviceAccount = JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
+
 
 const db = admin.firestore();
 
